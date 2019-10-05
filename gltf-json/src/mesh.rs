@@ -108,8 +108,8 @@ pub struct Primitive {
     pub attributes: HashMap<Checked<Semantic>, Index<accessor::Accessor>>,
 
     /// Extension specific data.
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub extensions: Option<extensions::mesh::Primitive>,
+    #[serde(default, skip_serializing_if = "extensions::mesh::Primitive::is_empty")]
+    pub extensions: extensions::mesh::Primitive,
 
     /// Optional application specific data.
     #[serde(default)]

@@ -1,3 +1,6 @@
+use std::collections::HashMap;
+use serde_json::Value;
+
 use gltf_derive::Validate;
 use serde_derive::{Serialize, Deserialize};
 #[cfg(feature = "KHR_materials_pbrSpecularGlossiness")]
@@ -9,12 +12,18 @@ pub struct Material {
     #[cfg(feature = "KHR_materials_pbrSpecularGlossiness")]
     #[serde(default, rename = "KHR_materials_pbrSpecularGlossiness", skip_serializing_if = "Option::is_none")]
     pub pbr_specular_glossiness: Option<PbrSpecularGlossiness>,
+
+    #[serde(default, flatten)]
+    pub others: HashMap<String, Value>,
 }
 
 /// A set of parameter values that are used to define the metallic-roughness
 /// material model from Physically-Based Rendering (PBR) methodology.
 #[derive(Clone, Debug, Default, Deserialize, Serialize, Validate)]
-pub struct PbrMetallicRoughness {}
+pub struct PbrMetallicRoughness {
+    #[serde(default, flatten)]
+    pub others: HashMap<String, Value>,
+}
 
 /// A set of parameter values that are used to define the specular-glossiness
 /// material model from Physically-Based Rendering (PBR) methodology.
@@ -69,11 +78,17 @@ pub struct PbrSpecularGlossiness {
 
 /// Defines the normal texture of a material.
 #[derive(Clone, Debug, Default, Deserialize, Serialize, Validate)]
-pub struct NormalTexture {}
+pub struct NormalTexture {
+    #[serde(default, flatten)]
+    pub others: HashMap<String, Value>,
+}
 
 /// Defines the occlusion texture of a material.
 #[derive(Clone, Debug, Default, Deserialize, Serialize, Validate)]
-pub struct OcclusionTexture {}
+pub struct OcclusionTexture {
+    #[serde(default, flatten)]
+    pub others: HashMap<String, Value>,
+}
 
 /// The diffuse factor of a material.
 #[cfg(feature = "KHR_materials_pbrSpecularGlossiness")]

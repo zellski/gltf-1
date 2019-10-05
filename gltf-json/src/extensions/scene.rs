@@ -1,3 +1,6 @@
+use std::collections::HashMap;
+use serde_json::Value;
+
 use gltf_derive::Validate;
 use serde_derive::{Serialize, Deserialize};
 
@@ -16,6 +19,9 @@ pub struct Node {
     #[cfg(feature = "KHR_lights_punctual")]
     #[serde(default, rename = "KHR_lights_punctual", skip_serializing_if = "Option::is_none")]
     pub khr_lights_punctual: Option<khr_lights_punctual::KhrLightsPunctual>,
+
+    #[serde(default, flatten)]
+    pub others: HashMap<String, Value>,
 }
 
 #[cfg(feature = "KHR_lights_punctual")]
@@ -195,4 +201,7 @@ pub mod khr_lights_punctual {
 
 /// The root `Node`s of a scene.
 #[derive(Clone, Debug, Default, Deserialize, Serialize, Validate)]
-pub struct Scene {}
+pub struct Scene {
+    #[serde(default, flatten)]
+    pub others: HashMap<String, Value>,
+}

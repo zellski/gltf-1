@@ -418,11 +418,15 @@ impl Document {
     /// `KHR_lights_punctual` extension.
     #[cfg(feature = "KHR_lights_punctual")]
     pub fn lights(&self) -> Option<iter::Lights> {
-        if let Some(khr_lights_punctual) = self.0.extensions.khr_lights_punctual.as_ref() {
-            Some(iter::Lights {
-                iter: khr_lights_punctual.lights.iter().enumerate(),
-                document: self,
-            })
+        if let Some(extensions) = self.0.extensions.as_ref() {
+            if let Some(khr_lights_punctual) = extensions.khr_lights_punctual.as_ref() {
+                Some(iter::Lights {
+                    iter: khr_lights_punctual.lights.iter().enumerate(),
+                    document: self,
+                })
+            } else {
+                None
+            }
         } else {
             None
         }
